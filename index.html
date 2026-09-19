@@ -172,13 +172,25 @@
 
     /* ============ PRODUCT HERO ============ */
     .product-hero {
+      position: relative; overflow: hidden;
       background:
         radial-gradient(circle at 82% 12%, var(--aqua-light) 0%, transparent 46%),
         radial-gradient(circle at 6% 88%, #F0E9D8 0%, transparent 40%),
         var(--bg);
       padding: 44px 5% 56px;
     }
+    .hero-bg-video {
+      position: absolute; z-index: 0; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center; opacity: 0.16;
+      pointer-events: none; filter: saturate(0.8) contrast(0.92);
+    }
+    .product-hero::after {
+      content: ''; position: absolute; z-index: 1; inset: 0;
+      background: linear-gradient(90deg, rgba(249,247,241,0.82), rgba(249,247,241,0.56));
+      pointer-events: none;
+    }
     .hero-inner { max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 48px; align-items: start; }
+    .product-hero .hero-inner { position: relative; z-index: 2; }
 
     /* gallery */
     .hero-gallery { position: sticky; top: 90px; }
@@ -1369,6 +1381,9 @@
 
   <!-- ============ PRODUCT HERO ============ -->
   <section class="product-hero" id="productHero">
+    <video class="hero-bg-video" autoplay muted loop playsinline preload="metadata" poster="coco-rush-product-hero.jpg" aria-hidden="true">
+      <source src="assam-coco-story.mp4" type="video/mp4">
+    </video>
     <div class="hero-inner">
 
       <!-- Left: gallery -->
