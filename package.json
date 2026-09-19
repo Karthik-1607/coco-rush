@@ -1,0 +1,17 @@
+{
+  "name": "coco-rush",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Coco Rush storefront + serverless order API",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "rules:deploy": "firebase deploy --only database",
+    "rules:test": "firebase emulators:start --only database"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0",
+    "razorpay": "^2.9.2"
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "products": {
+      ".read": true,
+      ".indexOn": ["sortOrder", "sold"],
+      ".write": "auth != null && auth.token.admin === true",
+      "$productId": {
+        "price": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "stock": { ".validate": "newData.isNumber() && newData.val() >= 0" },
+        "title": { ".validate": "newData.isString() && newData.val().length <= 160" }
+      }
+    },
+
+    "media": {
+      ".read": true,
+      ".write": "auth != null && auth.token.admin === true",
+      "$mediaId": {
+        "url": { ".validate": "newData.isString() && newData.val().length <= 400000" },
+        "type": { ".validate": "newData.val() === 'photo' || newData.val() === 'video'" }
+      }
+    },
+
+    "settings": {
+      ".read": true,
+      ".write": "auth != null && auth.token.admin === true",
+      "store": {
+        "$field": { ".validate": "newData.isString() && newData.val().length <= 240" }
+      }
+    },
+
+    "customers": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || auth.token.admin === true)",
+        ".write": "auth != null && (auth.uid === $uid || auth.token.admin === true)",
+        "name": { ".validate": "newData.isString() && newData.val().length <= 80" },
+        "email": { ".validate": "newData.isString() && newData.val().length <= 160" },
+        "phone": { ".validate": "newData.isString() && newData.val().length <= 20" }
+      }
+    },
+
+    "expenses": {
+      ".read": "auth != null && auth.token.admin === true",
+      ".write": "auth != null && auth.token.admin === true",
+      "$expenseId": {
+        "amount": { ".validate": "newData.isNumber() && newData.val() >= 0" }
+      }
+    },
+
+    "reviews": {
+      ".read": true,
+      ".indexOn": ["productId", "createdAt"],
+      "$reviewId": {
+        ".write": "auth != null && (!data.exists() ? newData.child('uid').val() === auth.uid : data.child('uid').val() === auth.uid || auth.token.admin === true)",
+        "rating": { ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 5" },
+        "text": { ".validate": "newData.isString() && newData.val().length <= 2000" }
+      }
+    },
+
+    "orders": {
+      ".read": "auth != null && auth.token.admin === true",
+      ".indexOn": ["razorpayOrderId", "createdAt", "status"],
+      ".write": "auth != null && auth.token.admin === true"
+    },
+
+    "admins": {
+      ".read": "auth != null && auth.token.admin === true",
+      ".write": false
+    }
+  }
+}
